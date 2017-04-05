@@ -98,10 +98,6 @@ class Transverser{
         }
     }
     
-    func nextSegment(){
-        
-    }
-    
     func switchLevel(level: Level){
         print("TODO")
     }

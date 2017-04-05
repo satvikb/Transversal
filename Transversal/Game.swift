@@ -27,10 +27,11 @@ class Game : Scene {
         }
         
         testLevel = Level(num: 0, _segments: [
-            Segment(frame: Screen.screenRect(x: 0, y: 0.25, width: 1, height: 0.02), _id: 0, _numSegments: 25, _cellMatches: [0, 3, 6, 8, 10, 24], dir: .Horizontal),
-            Segment(frame: Screen.screenRect(x: 0, y: 0.3, width: 1, height: 0.1), _id: 1, _numSegments: 20, _cellMatches: [0, 3, 7, 13, 17], dir: .Horizontal),
-            Segment(frame: Screen.screenRect(x: 0, y: 0.5, width: 0.1, height: 0.3), _id: 2, _numSegments: 15, _cellMatches: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical),
-            Segment(frame: Screen.screenRect(x: 0.9, y: 0.5, width: 0.1, height: 0.3), _id: 2, _numSegments: 15, _cellMatches: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical)
+            LineSegment(frame: Screen.screenRect(x: 0, y: 0.25, width: 1, height: 0.02), _id: 0, _numSegments: 25, _activeCells: [0, 3, 6, 8, 10, 24], dir: .Horizontal),
+            LineSegment(frame: Screen.screenRect(x: 0, y: 0.3, width: 1, height: 0.1), _id: 1, _numSegments: 20, _activeCells: [0, 3, 7, 13, 17], dir: .Horizontal),
+            LineSegment(frame: Screen.screenRect(x: 0.0, y: 0.5, width: 0.1, height: 0.3), _id: 2, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical),
+            CircleSegment(frame: Screen.screenRect(x: 0.25, y: 0.5, width: 0.5, height: 0), _id: 3, _numSegments: 15, _activeCells: [4, 6, 10, 13], innerRadius: 0.8, outerRadius: 1),
+            LineSegment(frame: Screen.screenRect(x: 0.95, y: 0.5, width: 0.1, height: 0.3), _id: 4, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical)
         ])
         
 
@@ -42,7 +43,6 @@ class Game : Scene {
     
     func stopButtonPressed(){
         if(transverser.currentCell.awake == true){
-            print("Got one!")
             transverser.currentCell.sleep()
         }
     }
@@ -58,12 +58,13 @@ class Game : Scene {
             self.addSubview(seg)
         }
         currentLevel = level
+        
         transverser.start()
     }
     
     func removeLevel(level: Level){
         for seg in level.segments{
-//            seg.ani
+            // animate out segments?
             seg.removeFromSuperview()
         }
     }

@@ -24,6 +24,8 @@
 		4046E6EC1E9469A700F2F3DA /* SuperButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4046E6DE1E9469A700F2F3DA /* SuperButton.swift */; };
 		4046E6ED1E9469A700F2F3DA /* Transverser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4046E6DF1E9469A700F2F3DA /* Transverser.swift */; };
 		4046E6EE1E9469A700F2F3DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4046E6E01E9469A700F2F3DA /* ViewController.swift */; };
+		406D0B831E95949C0071B5A3 /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B821E95949C0071B5A3 /* LineSegment.swift */; };
+		406D0B851E959A170071B5A3 /* CircleSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B841E959A170071B5A3 /* CircleSegment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		4046E6DE1E9469A700F2F3DA /* SuperButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuperButton.swift; sourceTree = "<group>"; };
 		4046E6DF1E9469A700F2F3DA /* Transverser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transverser.swift; sourceTree = "<group>"; };
 		4046E6E01E9469A700F2F3DA /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		406D0B821E95949C0071B5A3 /* LineSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
+		406D0B841E959A170071B5A3 /* CircleSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleSegment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +83,13 @@
 		4046E6BF1E94692100F2F3DA /* Transversal */ = {
 			isa = PBXGroup;
 			children = (
+				406D0B811E9594820071B5A3 /* Segment */,
 				4046E6EF1E9469DD00F2F3DA /* Scenes */,
 				4046E6D31E9469A700F2F3DA /* AppDelegate.swift */,
 				4046E6D41E9469A700F2F3DA /* Functions.swift */,
 				4046E6D61E9469A700F2F3DA /* GameHandler.swift */,
 				4046E6D71E9469A700F2F3DA /* Level.swift */,
 				4046E6DB1E9469A700F2F3DA /* Scene.swift */,
-				4046E6DD1E9469A700F2F3DA /* Segment.swift */,
 				4046E6DE1E9469A700F2F3DA /* SuperButton.swift */,
 				4046E6DF1E9469A700F2F3DA /* Transverser.swift */,
 				4046E6E01E9469A700F2F3DA /* ViewController.swift */,
@@ -108,6 +112,16 @@
 				4046E6DC1E9469A700F2F3DA /* Screen.swift */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		406D0B811E9594820071B5A3 /* Segment */ = {
+			isa = PBXGroup;
+			children = (
+				4046E6DD1E9469A700F2F3DA /* Segment.swift */,
+				406D0B821E95949C0071B5A3 /* LineSegment.swift */,
+				406D0B841E959A170071B5A3 /* CircleSegment.swift */,
+			);
+			name = Segment;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,8 +201,10 @@
 				4046E6E41E9469A700F2F3DA /* GameHandler.swift in Sources */,
 				4046E6E61E9469A700F2F3DA /* MainMenu.swift in Sources */,
 				4046E6E11E9469A700F2F3DA /* AppDelegate.swift in Sources */,
+				406D0B851E959A170071B5A3 /* CircleSegment.swift in Sources */,
 				4046E6EC1E9469A700F2F3DA /* SuperButton.swift in Sources */,
 				4046E6EE1E9469A700F2F3DA /* ViewController.swift in Sources */,
+				406D0B831E95949C0071B5A3 /* LineSegment.swift in Sources */,
 				4046E6E71E9469A700F2F3DA /* PositionHandler.swift in Sources */,
 				4046E6E31E9469A700F2F3DA /* Game.swift in Sources */,
 				4046E6EB1E9469A700F2F3DA /* Segment.swift in Sources */,
@@ -370,6 +386,7 @@
 				4046E6D11E94692100F2F3DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
