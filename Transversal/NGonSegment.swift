@@ -35,16 +35,18 @@ class NGonSegment : Segment{
             let pos : CGPoint! = CGPoint.zero;
             let size : CGSize! = newFrame.size;
             
-            let cell = NGonSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, r1: actualInnerRadius, r2: actualOuterRadius, numSides: _numSides, cellsPerSide: _cellsPerSide)
-            
-            if(activeCells.contains(i)){
-                if(cell.awake == false){
-                    cell.wake(color: UIColor.red)
+            for k in 0...cellsPerSide-1 {
+                let cell = NGonSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, r1: actualInnerRadius, r2: actualOuterRadius, numSides: _numSides, cellsPerSide: _cellsPerSide, cellSideI: k)
+                
+                if(activeCells.contains(i)){
+                    if(cell.awake == false){
+                        cell.wake(color: UIColor.red)
+                    }
                 }
+                
+                self.addSubview(cell)
+                cells.append(cell)
             }
-            
-            self.addSubview(cell)
-            cells.append(cell)
         }
         
 //        self.layer.borderWidth = 1
@@ -65,11 +67,11 @@ class NGonSegmentCell : SegmentCell{
     
     var segmentShape : CAShapeLayer!
     
-    init(frame: CGRect, _i: Int, r1 : CGFloat, r2 : CGFloat, numSides : Int, cellsPerSide : Int) {
+    init(frame: CGRect, _i: Int, r1 : CGFloat, r2 : CGFloat, numSides : Int, cellsPerSide : Int, cellSideI: Int) {
         super.init(frame: frame, _id: _i)
         
         segmentShape = CAShapeLayer()
-        segmentShape.path = ngonSegment(r1: r1, r2: r2, i: _i, numSides: numSides, cellsPerSide: cellsPerSide).cgPath
+        segmentShape.path = ngonSegment(r1: r1, r2: r2, i: _i, numSides: numSides, cellsPerSide: cellsPerSide, cellSideI: cellSideI).cgPath
         segmentShape.strokeColor = UIColor.white.cgColor
         segmentShape.fillColor = UIColor.clear.cgColor
         
@@ -84,34 +86,111 @@ class NGonSegmentCell : SegmentCell{
     //  Inner Radius, Outer Radius
     //
     // Implement cellsPerSide
-    func ngonSegment(r1:CGFloat, r2:CGFloat, i:Int, numSides:Int, cellsPerSide:Int) -> UIBezierPath{
+    func ngonSegment(r1:CGFloat, r2:CGFloat, i:Int, numSides:Int, cellsPerSide:Int = 1, cellSideI : Int = 0) -> UIBezierPath{
         let center = CGPoint(x: frame.origin.x + frame.size.width/2, y: frame.origin.y+frame.size.height/2)
         let circleRadians = CGFloat.pi*2
         
-        let perSegmentAngle = circleRadians/CGFloat(numSides)
+        let totalCells = numSides*cellsPerSide
         
-        let startAngle : CGFloat = (CGFloat(i))*perSegmentAngle
-        let endAngle : CGFloat = (CGFloat(i+1))*perSegmentAngle
+        let perSegmentAngle = circleRadians/CGFloat(totalCells)
+
+        
+        let overallCellI = (i*cellsPerSide)+cellSideI
+        let startAngle : CGFloat = (CGFloat(overallCellI))*perSegmentAngle
+        let endAngle : CGFloat = (CGFloat(overallCellI+1))*perSegmentAngle
         
         let path = UIBezierPath()
         
-        let startPointInner = CGPoint(x: center.x + cos(startAngle)*r1/2, y: center.y + sin(startAngle)*r1/2)
-        path.move(to: startPointInner)
+        let ir = r1/2
+        let or = r2/2
         
-        let endPointInner = CGPoint(x: center.x + cos(endAngle)*r1/2, y: center.y + sin(endAngle)*r1/2)
-        path.addLine(to: endPointInner)
-
-        let startPointOuter = CGPoint(x: center.x + cos(endAngle)*r2/2, y: center.y + sin(endAngle)*r2/2)
-        path.addLine(to: startPointOuter)
+//        let innerXDifference = abs((cos(endAngle)*ir)-(cos(startAngle)*ir))/CGFloat(cellsPerSide)
+//        let innerYDifference = abs((sin(endAngle)*ir)-(sin(startAngle)*ir))/CGFloat(cellsPerSide)
+//        
+//        let outerXDifference = abs((cos(endAngle)*or)-(cos(startAngle)*or))/CGFloat(cellsPerSide)
+//        let outerYDifference = abs((sin(endAngle)*or)-(sin(startAngle)*or))/CGFloat(cellsPerSide)
+//        
+//        let n = CGFloat(cellSideI+1)
+//        
+//        let start = CGPoint(x: center.x + innerXDifference*n, y: center.y + innerYDifference*n)
+//        path.move(to: start)
+//        
+//        let innerEnd = CGPoint(x: center.x + innerXDifference*(n-1), y: center.y + innerYDifference*(CGFloat(cellsPerSide)-n))
+////        path.addLine(to: innerEnd)
+//        
+//        let outerStart = CGPoint(x: center.x + outerXDifference*(n-1), y: center.y + outerYDifference*(CGFloat(cellsPerSide)-n))
+//        path.addLine(to: outerStart)
+//        
+//        let outerEnd = CGPoint(x: center.x + outerXDifference*n, y: center.y + outerYDifference*n)
+////        path.addLine(to: outerEnd)
+//        
+//        print("\(start) \(innerEnd) \(outerStart) \(outerEnd)")
+//        
+//        path.close()
         
-        let endPointOuter = CGPoint(x: center.x + cos(startAngle)*r2/2, y: center.y + sin(startAngle)*r2/2)
-        path.addLine(to: endPointOuter)
         
-        path.close()
+//        if(cellsPerSide == 1){
+            let startPointInner = CGPoint(x: center.x + cos(startAngle)*ir, y: center.y + sin(startAngle)*ir)
+            path.move(to: startPointInner)
         
+            let endPointInner = CGPoint(x: center.x + cos(endAngle)*ir, y: center.y + sin(endAngle)*ir)
+            path.addLine(to: endPointInner)
+            
+            let startPointOuter = CGPoint(x: center.x + cos(endAngle)*or, y: center.y + sin(endAngle)*or)
+            path.addLine(to: startPointOuter)
+            
+            let endPointOuter = CGPoint(x: center.x + cos(startAngle)*or, y: center.y + sin(startAngle)*or)
+            path.addLine(to: endPointOuter)
+            
+            path.close()
+//        }else{
         
-//        let rotation = CGAffineTransform(rotationAngle: perSegmentAngle)
-//        path.apply(rotation)
+            
+            
+            
+            
+            
+            
+//            let incrementAngle = (perSegmentAngle/CGFloat(cellsPerSide))
+//            
+//            let innerCellStartAngle = startAngle+(incrementAngle*CGFloat(cellSideI))
+//            let innerCellEndAngle = endAngle+(incrementAngle*CGFloat(cellSideI))
+//
+//            if(cellSideI == 0){
+//                let startPointInner = CGPoint(x: center.x + cos(startAngle)*ir, y: center.y + sin(startAngle)*ir)
+//                path.move(to: startPointInner)
+//                
+//                let endPointInner = CGPoint(x: center.x + cos(startAngle)*(ir/CGFloat(cellsPerSide)), y: center.y + sin(endAngle)*(ir/CGFloat(cellsPerSide)))
+//                path.addLine(to: endPointInner)
+//                let endPointOuter = CGPoint(x: center.x + cos(startAngle)*(or/CGFloat(cellsPerSide)), y: center.y + sin(endAngle)*(or/CGFloat(cellsPerSide)))
+//                path.addLine(to: endPointOuter)
+//                
+//                let finishPointOuter = CGPoint(x: center.x + cos(startAngle)*or, y: center.y + sin(startAngle)*r2)
+//                path.addLine(to: finishPointOuter)
+//                
+//            }else if(cellSideI == cellsPerSide-1){
+//                let startPointInner = CGPoint(x: center.x + cos(innerCellStartAngle)*ir, y: center.y + sin(innerCellStartAngle)*ir)
+//                path.move(to: startPointInner)
+//                
+//                let endPointInner = CGPoint(x: center.x + cos(startAngle)*(ir/CGFloat(cellsPerSide)), y: center.y + sin(endAngle)*(ir/CGFloat(cellsPerSide)))
+//                path.addLine(to: endPointInner)
+//                let endPointOuter = CGPoint(x: center.x + cos(startAngle)*(or/CGFloat(cellsPerSide)), y: center.y + sin(endAngle)*(or/CGFloat(cellsPerSide)))
+//                path.addLine(to: endPointOuter)
+//                
+//                let finishPointOuter = CGPoint(x: center.x + cos(startAngle)*or, y: center.y + sin(startAngle)*r2)
+//                path.addLine(to: finishPointOuter)
+//                
+//                
+//                
+//                
+//                let startPointInner = CGPoint(x: center.x + cos(innerCellStartAngle)*(ir/CGFloat(cellsPerSide)), y: center.y + sin(innerCellStartAngle)*(ir/CGFloat(cellsPerSide)))
+//                path.addLine(to: startPointInner)
+//                
+//                let endPointInner = CGPoint(x: center.x + cos(innerCellStartAngle)*(ir/cellSideI), y: <#T##CGFloat#>)
+//            }else{
+//                
+//            }
+//        }
         
         return path
     }

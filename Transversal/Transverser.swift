@@ -53,6 +53,9 @@ class Transverser{
             if(timePerCellTimer > timePerCell){
                 if(level.hasActiveCell()){
                     transverse()
+                }else{
+                    print("No more cells!")
+                    currentSegment.hide(time: 2)
                 }
             
                 timePerCellTimer = 0
@@ -71,20 +74,25 @@ class Transverser{
             // sleep current cell
             currentCell.setTransversing(isTransversing: false)
  
-                var foundActiveSegment : Bool = false
-                var newSegmentIndex = (segmentIndex + 1)%level.segments.count
-                var newSegment = level.segments[newSegmentIndex] // : Segment;
-                
-                while(foundActiveSegment == false){
-                    newSegment = level.segments[newSegmentIndex]
-                    if(newSegment.hasActiveCell() == true){
-                        foundActiveSegment = true
-                    }else{
-                        newSegmentIndex = (newSegmentIndex + 1)%level.segments.count
-//                        print("No active segments, going to \(newSegmentIndex))")
-                    }
+            if(currentSegment.hasActiveCell() == false){
+                if(currentSegment.hiddenAlpha == false){
+                    currentSegment.hide(time: 2)
                 }
-                currentSegment = newSegment
+            }
+            
+            var foundActiveSegment : Bool = false
+            var newSegmentIndex = (segmentIndex + 1)%level.segments.count
+            var newSegment = level.segments[newSegmentIndex] // : Segment;
+            
+            while(foundActiveSegment == false){
+                newSegment = level.segments[newSegmentIndex]
+                if(newSegment.hasActiveCell() == true){
+                    foundActiveSegment = true
+                }else{                    
+                    newSegmentIndex = (newSegmentIndex + 1)%level.segments.count
+                }
+            }
+            currentSegment = newSegment
             
             currentCell = currentSegment.cells[0]
             currentCell.setTransversing(isTransversing: true)

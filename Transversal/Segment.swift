@@ -25,6 +25,8 @@ class Segment : UIView {
     
     var inScreenPosition : CGPoint!;
     
+    var hiddenAlpha : Bool = false
+    
     init(frame: CGRect, _id : Int, _numSegments : Int, _activeCells : [Int]){
         id = _id
         numSegments = _numSegments
@@ -66,6 +68,20 @@ class Segment : UIView {
     func animateOut(time: TimeInterval){
         UIView.animate(withDuration: time, animations: {
             self.frame.origin = Screen.screenPos(x: -1, y: 0)
+        })
+    }
+    
+    func hide(time: TimeInterval){
+        hiddenAlpha = true
+        UIView.animate(withDuration: time, animations: {
+            self.alpha = 0
+        })
+    }
+    
+    func show(time: TimeInterval){
+        hiddenAlpha = false
+        UIView.animate(withDuration: time, animations: {
+            self.alpha = 1
         })
     }
 }
