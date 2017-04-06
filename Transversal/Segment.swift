@@ -43,6 +43,16 @@ class Segment : UIView {
         return hasActive
     }
     
+    func numActiveCell() -> Int{
+        var num = 0
+        for cell in cells{
+            if(cell.awake == true){
+                num += 1
+            }
+        }
+        return num
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -1,5 +1,5 @@
 //
-//  CircleSegment.swift
+//  NGonSegment.swift
 //  Transversal
 //
 //  Created by Satvik Borra on 4/5/17.
@@ -8,15 +8,23 @@
 
 import UIKit
 
-class CircleSegment : Segment{
+class NGonSegment : Segment{
     
-    init(frame: CGRect, _id: Int, _numSegments : Int, _activeCells : [Int], innerRadius : CGFloat, outerRadius : CGFloat){
+    var numSides : Int!
+    var cellsPerSide : Int!
+    var totalCells : Int!
+    
+    init(frame: CGRect, _id: Int, _numSides : Int, _cellsPerSide: Int, _activeCells : [Int], innerRadius : CGFloat, outerRadius : CGFloat){
         var newFrame = frame
         let largest = max(frame.size.width, frame.size.height)
         newFrame.size.width = largest
         newFrame.size.height = largest
         
-        super.init(frame: newFrame, _id: _id, _numSegments: _numSegments, _activeCells: _activeCells)
+        numSides = _numSides
+        cellsPerSide = _cellsPerSide
+        totalCells = _numSides * _cellsPerSide
+        
+        super.init(frame: newFrame, _id: _id, _numSegments: totalCells, _activeCells: _activeCells)
         
         let actualInnerRadius = innerRadius*largest
         let actualOuterRadius = outerRadius*largest
@@ -27,7 +35,7 @@ class CircleSegment : Segment{
             let pos : CGPoint! = CGPoint.zero;
             let size : CGSize! = newFrame.size;
             
-            let cell = CircleSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, r1: actualInnerRadius, r2: actualOuterRadius, totalSegments: _numSegments)
+            let cell = NGonSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, r1: actualInnerRadius, r2: actualOuterRadius, numSides: _numSides, cellsPerSide: _cellsPerSide)
             
             if(activeCells.contains(i)){
                 if(cell.awake == false){
@@ -40,11 +48,11 @@ class CircleSegment : Segment{
         }
         
 //        self.layer.borderWidth = 1
-        //        let circleRadians = CGFloat.pi*2
-//        let perSegmentAngle = circleRadians/CGFloat(_numSegments)
-//        self.transform = CGAffineTransform(rotationAngle: perSegmentAngle)
+        
+//        let circleRadians = CGFloat.pi*2
+//        let perSegmentAngle = circleRadians/CGFloat(_numSides)
         self.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-
+        
         self.frame.origin = Screen.screenPos(x: -1, y: 0)
     }
     
@@ -53,42 +61,57 @@ class CircleSegment : Segment{
     }
 }
 
-class CircleSegmentCell : SegmentCell{
+class NGonSegmentCell : SegmentCell{
     
     var segmentShape : CAShapeLayer!
-
-    init(frame: CGRect, _i: Int, r1 : CGFloat, r2 : CGFloat, totalSegments : Int) {
+    
+    init(frame: CGRect, _i: Int, r1 : CGFloat, r2 : CGFloat, numSides : Int, cellsPerSide : Int) {
         super.init(frame: frame, _id: _i)
         
         segmentShape = CAShapeLayer()
-        segmentShape.path = circleSegment(r1: r1, r2: r2, i: _i, totalSegments: totalSegments).cgPath
+        segmentShape.path = ngonSegment(r1: r1, r2: r2, i: _i, numSides: numSides, cellsPerSide: cellsPerSide).cgPath
         segmentShape.strokeColor = UIColor.white.cgColor
         segmentShape.fillColor = UIColor.clear.cgColor
-
+        
         
         self.layer.addSublayer(segmentShape)
     }
     
-    func circleSegment(r1:CGFloat, r2:CGFloat, i:Int, totalSegments:Int) -> UIBezierPath{
+    
+    // TODO
+    // Input 4 different arguments
+    //  Height, Width
+    //  Inner Radius, Outer Radius
+    //
+    // Implement cellsPerSide
+    func ngonSegment(r1:CGFloat, r2:CGFloat, i:Int, numSides:Int, cellsPerSide:Int) -> UIBezierPath{
         let center = CGPoint(x: frame.origin.x + frame.size.width/2, y: frame.origin.y+frame.size.height/2)
         let circleRadians = CGFloat.pi*2
-        let perSegmentAngle = circleRadians/CGFloat(totalSegments)
+        
+        let perSegmentAngle = circleRadians/CGFloat(numSides)
         
         let startAngle : CGFloat = (CGFloat(i))*perSegmentAngle
         let endAngle : CGFloat = (CGFloat(i+1))*perSegmentAngle
-
+        
         let path = UIBezierPath()
         
-        path.addArc(withCenter: center, radius: r1/2, startAngle: startAngle, endAngle: endAngle, clockwise: true)
-
-        //No need to do this manually, apparently when adding arc #2 it draws the line automatically
-//        let xPos1 = cos(endAngle)*r2
-//        let yPos1 = sin(endAngle)*r2
-//        path.addLine(to: CGPoint(x: center.x + xPos1, y: center.y + yPos1))
+        let startPointInner = CGPoint(x: center.x + cos(startAngle)*r1/2, y: center.y + sin(startAngle)*r1/2)
+        path.move(to: startPointInner)
         
-        path.addArc(withCenter: center, radius: r2/2, startAngle: endAngle, endAngle: startAngle, clockwise: false)
+        let endPointInner = CGPoint(x: center.x + cos(endAngle)*r1/2, y: center.y + sin(endAngle)*r1/2)
+        path.addLine(to: endPointInner)
+
+        let startPointOuter = CGPoint(x: center.x + cos(endAngle)*r2/2, y: center.y + sin(endAngle)*r2/2)
+        path.addLine(to: startPointOuter)
+        
+        let endPointOuter = CGPoint(x: center.x + cos(startAngle)*r2/2, y: center.y + sin(startAngle)*r2/2)
+        path.addLine(to: endPointOuter)
         
         path.close()
+        
+        
+//        let rotation = CGAffineTransform(rotationAngle: perSegmentAngle)
+//        path.apply(rotation)
         
         return path
     }

@@ -26,6 +26,8 @@
 		4046E6EE1E9469A700F2F3DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4046E6E01E9469A700F2F3DA /* ViewController.swift */; };
 		406D0B831E95949C0071B5A3 /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B821E95949C0071B5A3 /* LineSegment.swift */; };
 		406D0B851E959A170071B5A3 /* CircleSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B841E959A170071B5A3 /* CircleSegment.swift */; };
+		406D0B871E95C01F0071B5A3 /* NGonSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B861E95C01F0071B5A3 /* NGonSegment.swift */; };
+		406D0B891E95C4A60071B5A3 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B881E95C4A60071B5A3 /* Label.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		4046E6E01E9469A700F2F3DA /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		406D0B821E95949C0071B5A3 /* LineSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
 		406D0B841E959A170071B5A3 /* CircleSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleSegment.swift; sourceTree = "<group>"; };
+		406D0B861E95C01F0071B5A3 /* NGonSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGonSegment.swift; sourceTree = "<group>"; };
+		406D0B881E95C4A60071B5A3 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 				4046E6EF1E9469DD00F2F3DA /* Scenes */,
 				4046E6D31E9469A700F2F3DA /* AppDelegate.swift */,
 				4046E6D41E9469A700F2F3DA /* Functions.swift */,
+				406D0B881E95C4A60071B5A3 /* Label.swift */,
 				4046E6D61E9469A700F2F3DA /* GameHandler.swift */,
 				4046E6D71E9469A700F2F3DA /* Level.swift */,
 				4046E6DB1E9469A700F2F3DA /* Scene.swift */,
@@ -120,6 +125,7 @@
 				4046E6DD1E9469A700F2F3DA /* Segment.swift */,
 				406D0B821E95949C0071B5A3 /* LineSegment.swift */,
 				406D0B841E959A170071B5A3 /* CircleSegment.swift */,
+				406D0B861E95C01F0071B5A3 /* NGonSegment.swift */,
 			);
 			name = Segment;
 			sourceTree = "<group>";
@@ -208,9 +214,11 @@
 				4046E6E71E9469A700F2F3DA /* PositionHandler.swift in Sources */,
 				4046E6E31E9469A700F2F3DA /* Game.swift in Sources */,
 				4046E6EB1E9469A700F2F3DA /* Segment.swift in Sources */,
+				406D0B871E95C01F0071B5A3 /* NGonSegment.swift in Sources */,
 				4046E6EA1E9469A700F2F3DA /* Screen.swift in Sources */,
 				4046E6E51E9469A700F2F3DA /* Level.swift in Sources */,
 				4046E6E21E9469A700F2F3DA /* Functions.swift in Sources */,
+				406D0B891E95C4A60071B5A3 /* Label.swift in Sources */,
 				4046E6E81E9469A700F2F3DA /* Proportion.swift in Sources */,
 				4046E6E91E9469A700F2F3DA /* Scene.swift in Sources */,
 				4046E6ED1E9469A700F2F3DA /* Transverser.swift in Sources */,

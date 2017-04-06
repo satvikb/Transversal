@@ -28,6 +28,14 @@ class Level {
         return hasActiveCell
     }
     
+    func numActiveCell() -> Int{
+        var num = 0
+        for seg in segments{
+            num += seg.numActiveCell()
+        }
+        return num
+    }
+    
     func animateIn(){
         
     }

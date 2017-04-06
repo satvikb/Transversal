@@ -17,8 +17,15 @@ class Game : Scene {
     
     var testLevel : Level!
     
+    var cellLeftLabel : Label!;
+    
     override init(frame : CGRect) {
         super.init(frame: frame)
+        
+        cellLeftLabel = Label(frame: Screen.screenRect(x: 0, y: 0, width: 1, height: 0.1), text: "0", _outPos: Screen.screenPos(x: -1, y: 0.05), _inPos: Screen.screenPos(x: 0, y: 0.05), textColor: UIColor.white, debugFrame: false)
+        cellLeftLabel.textAlignment = .center
+        cellLeftLabel.font = UIFont(name: fontName, size: Screen.fontSize(fontSize: 5))
+        
         
         stopButton = SuperButton(_posHandler: PositionHandler(inPosProp: Proportion(_x: 0, _y: 0.85), outPosProp: Proportion(_x: -1, _y: 0.85)), propSize: CGSize(width: 1, height: 0.1), text: "Stop")
         
@@ -30,20 +37,26 @@ class Game : Scene {
             LineSegment(frame: Screen.screenRect(x: 0, y: 0.25, width: 1, height: 0.02), _id: 0, _numSegments: 25, _activeCells: [0, 3, 6, 8, 10, 24], dir: .Horizontal),
             LineSegment(frame: Screen.screenRect(x: 0, y: 0.3, width: 1, height: 0.1), _id: 1, _numSegments: 20, _activeCells: [0, 3, 7, 13, 17], dir: .Horizontal),
             LineSegment(frame: Screen.screenRect(x: 0.0, y: 0.5, width: 0.1, height: 0.3), _id: 2, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical),
-            CircleSegment(frame: Screen.screenRect(x: 0.25, y: 0.5, width: 0.5, height: 0), _id: 3, _numSegments: 15, _activeCells: [4, 6, 10, 13], innerRadius: 0.8, outerRadius: 1),
-            LineSegment(frame: Screen.screenRect(x: 0.95, y: 0.5, width: 0.1, height: 0.3), _id: 4, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical)
+            CircleSegment(frame: Screen.screenRect(x: 0.15, y: 0.5, width: 0.35, height: 0), _id: 3, _numSegments: 15, _activeCells: [4, 6, 10, 13], innerRadius: 0.8, outerRadius: 1),
+            NGonSegment(frame: Screen.screenRect(x: 0.575, y: 0.525, width: 0.25, height: 0), _id: 4, _numSides: 6, _cellsPerSide: 1, _activeCells: [1, 3], innerRadius: 0.7, outerRadius: 1),
+            LineSegment(frame: Screen.screenRect(x: 0.95, y: 0.5, width: 0.1, height: 0.3), _id: 5, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical)
         ])
-        
 
         //init transverser
         transverser = Transverser(_level: testLevel)
         
         self.addSubview(stopButton)
+        self.addSubview(cellLeftLabel)
+    }
+    
+    func updateCellLeftText(){
+        cellLeftLabel.text = "\(testLevel.numActiveCell())"
     }
     
     func stopButtonPressed(){
         if(transverser.currentCell.awake == true){
             transverser.currentCell.sleep()
+            updateCellLeftText()
         }
     }
     
@@ -70,12 +83,15 @@ class Game : Scene {
     }
     
     override func animateIn() {
+        cellLeftLabel.animateIn(time: transitionDuration)
         stopButton.animateIn(time: transitionDuration)
         loadLevel(level: testLevel)
+        updateCellLeftText()
     }
     
     override func animateOut() {
         stopButton.animateOut(time: transitionDuration)
+        cellLeftLabel.animateOut(time: transitionDuration)
     }
     
     required init?(coder aDecoder: NSCoder) {
