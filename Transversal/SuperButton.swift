@@ -15,7 +15,7 @@ class SuperButton : UIView{
     var button : UIButton!;
     var shadowView : UIView!;
     
-    let shadowAmount : CGFloat = 15
+    let shadowAmount : CGFloat = 8
     var shadowPos : CGPoint! //    var pos = Screen.screenPos(x: 0.1, y: 0.2)
 
     init(_posHandler : PositionHandler, propSize: CGSize, text : String = ""){
@@ -24,7 +24,7 @@ class SuperButton : UIView{
         
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
-        shadowPos = CGPoint(x: 0, y: shadowAmount)
+        shadowPos = CGPoint(x: shadowAmount/2, y: shadowAmount)
         print("\(shadowPos)")
         button = UIButton(type: .custom)
         button.frame = CGRect(origin: CGPoint.zero, size: frame.size)
@@ -37,6 +37,7 @@ class SuperButton : UIView{
         button.addTarget(self, action: #selector(buttonTouchUpFunc(sender:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(buttonTouchUpFunc(sender:)), for: .touchUpOutside)
         button.addTarget(self, action: #selector(buttonTouchDownFunc(sender:)), for: .touchDown)
+        button.addTarget(self, action: #selector(buttonUndo(sender:)), for: UIControlEvents.touchDragExit)
         button.isUserInteractionEnabled = true
         
         shadowView = UIView(frame: CGRect(origin: shadowPos, size: frame.size))
@@ -51,6 +52,10 @@ class SuperButton : UIView{
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func buttonUndo(sender: UIButton){
+        button.frame.origin = CGPoint.zero
     }
     
     @objc func buttonTouchUpFunc(sender: UIButton){

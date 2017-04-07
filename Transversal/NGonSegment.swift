@@ -79,7 +79,8 @@ class NGonSegmentCell : SegmentCell{
         segmentShape.strokeColor = UIColor.white.cgColor
         segmentShape.fillColor = UIColor.clear.cgColor
         
-        
+        segmentShape.actions = ["onOrderIn": NSNull(), "onOrderOut":NSNull(), "contents":NSNull()]
+
         self.layer.addSublayer(segmentShape)
     }
     
@@ -204,7 +205,10 @@ class NGonSegmentCell : SegmentCell{
     }
     
     override func setColor(color: UIColor) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         segmentShape.fillColor = color.cgColor
+        CATransaction.commit()
     }
     
     required init?(coder aDecoder: NSCoder) {

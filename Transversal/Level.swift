@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Level {
+class Level : NSCopying{
     
     var levelNum : Int!;
     var segments : [Segment] = []
@@ -16,6 +16,15 @@ class Level {
     init(num: Int, _segments : [Segment]){
         levelNum = num
         segments = _segments
+    }
+    
+//    init(clone other: Level){
+//        levelNum = other.levelNum
+//        segments = other.segments
+//    }
+    
+    func copy(with zone: NSZone? = nil) -> Any{
+        return Level(num: levelNum, _segments: segments)
     }
     
     func hasActiveCell() -> Bool{

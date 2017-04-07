@@ -14,7 +14,7 @@ class MainMenu : Scene {
     
     override init(frame : CGRect) {
         super.init(frame: frame)
-        playButton = SuperButton(_posHandler: PositionHandler(inPosProp: Proportion(_x: 0, _y: 0.45), outPosProp: Proportion(_x: -1, _y: 0.45)), propSize: CGSize(width: 1, height: 0.1), text: "Play")
+        playButton = SuperButton(_posHandler: PositionHandler(inPosProp: Proportion(_x: 0.25, _y: 0.45), outPosProp: Proportion(_x: -0.5, _y: 0.45)), propSize: CGSize(width: 0.5, height: 0.1), text: "Play")
         
         playButton.touchUp = {
             GameHandler.switchScene(from: .MainMenu, to: .Game)

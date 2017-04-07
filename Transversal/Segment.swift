@@ -150,7 +150,7 @@ class SegmentCell : UIView{
         }
     }
     
-    func setTransversing(isTransversing: Bool, color: UIColor = UIColor.gray){
+    func setTransversing(isTransversing: Bool, color: UIColor = UIColor.white){
         transversing = isTransversing
         
         if(isTransversing == true){

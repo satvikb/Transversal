@@ -16,15 +16,7 @@ class Transverser{
     var updateTimer : CADisplayLink!;
     
     var currentTime : Double!;
-//    var timePerCell : Double = 0.1;
     var timePerCellTimer : Double = 0;
-    
-    init(_level: Level){
-        level = _level
-        
-        currentSegment = level.segments[0]
-        currentCell = currentSegment.cells[0]
-    }
     
     func getCurrentSegment() -> Segment{
         if(currentSegment != nil){
@@ -48,17 +40,18 @@ class Transverser{
         if(prevTime != nil){
             currentTime = CACurrentMediaTime()
             let delta = currentTime-prevTime
-            timePerCellTimer += delta
-            
-            if(timePerCellTimer > currentSegment.timePerCell){
-                if(level.hasActiveCell()){
+            if(level.hasActiveCell()){
+                timePerCellTimer += delta
+                
+                if(timePerCellTimer > currentSegment.timePerCell){
                     transverse()
-                }else{
-                    print("No more cells!")
-                    currentSegment.hide(time: 2)
+                    timePerCellTimer = 0
                 }
-            
-                timePerCellTimer = 0
+            }else{
+                stop()
+                currentSegment.hide(time: 1)
+                GameHandler.game.loadLevel(level: LevelHandler.getNextLevel(current: level))
+                print("switching")
             }
             prevTime = CACurrentMediaTime()
         }else{
@@ -76,7 +69,7 @@ class Transverser{
  
             if(currentSegment.hasActiveCell() == false){
                 if(currentSegment.hiddenAlpha == false){
-                    currentSegment.hide(time: 2)
+                    currentSegment.hide(time: 1)
                 }
             }
             
@@ -106,8 +99,12 @@ class Transverser{
         }
     }
     
-    func switchLevel(level: Level){
-        print("TODO")
+    func setLevel(level: Level){
+        print("TODO \(level.levelNum)")
+        self.level = level
+        
+        currentSegment = self.level.segments[0]
+        currentCell = currentSegment.cells[0]
     }
     
     func start(){
