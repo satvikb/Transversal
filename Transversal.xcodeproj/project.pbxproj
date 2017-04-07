@@ -28,6 +28,8 @@
 		406D0B851E959A170071B5A3 /* CircleSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B841E959A170071B5A3 /* CircleSegment.swift */; };
 		406D0B871E95C01F0071B5A3 /* NGonSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B861E95C01F0071B5A3 /* NGonSegment.swift */; };
 		406D0B891E95C4A60071B5A3 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B881E95C4A60071B5A3 /* Label.swift */; };
+		406D0B8B1E97089E0071B5A3 /* LevelHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B8A1E97089E0071B5A3 /* LevelHandler.swift */; };
+		406D0B8D1E9709620071B5A3 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406D0B8C1E9709620071B5A3 /* ColorScheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,8 @@
 		406D0B841E959A170071B5A3 /* CircleSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleSegment.swift; sourceTree = "<group>"; };
 		406D0B861E95C01F0071B5A3 /* NGonSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGonSegment.swift; sourceTree = "<group>"; };
 		406D0B881E95C4A60071B5A3 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		406D0B8A1E97089E0071B5A3 /* LevelHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelHandler.swift; sourceTree = "<group>"; };
+		406D0B8C1E9709620071B5A3 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 				4046E6D41E9469A700F2F3DA /* Functions.swift */,
 				406D0B881E95C4A60071B5A3 /* Label.swift */,
 				4046E6D61E9469A700F2F3DA /* GameHandler.swift */,
+				406D0B8A1E97089E0071B5A3 /* LevelHandler.swift */,
 				4046E6D71E9469A700F2F3DA /* Level.swift */,
 				4046E6DB1E9469A700F2F3DA /* Scene.swift */,
 				4046E6DE1E9469A700F2F3DA /* SuperButton.swift */,
@@ -103,6 +108,7 @@
 				4046E6C91E94692100F2F3DA /* LaunchScreen.storyboard */,
 				4046E6CC1E94692100F2F3DA /* Info.plist */,
 				4046E6D21E9469A700F2F3DA /* Transversal-Bridging-Header.h */,
+				406D0B8C1E9709620071B5A3 /* ColorScheme.swift */,
 			);
 			path = Transversal;
 			sourceTree = "<group>";
@@ -209,6 +215,7 @@
 				4046E6E11E9469A700F2F3DA /* AppDelegate.swift in Sources */,
 				406D0B851E959A170071B5A3 /* CircleSegment.swift in Sources */,
 				4046E6EC1E9469A700F2F3DA /* SuperButton.swift in Sources */,
+				406D0B8B1E97089E0071B5A3 /* LevelHandler.swift in Sources */,
 				4046E6EE1E9469A700F2F3DA /* ViewController.swift in Sources */,
 				406D0B831E95949C0071B5A3 /* LineSegment.swift in Sources */,
 				4046E6E71E9469A700F2F3DA /* PositionHandler.swift in Sources */,
@@ -219,6 +226,7 @@
 				4046E6E51E9469A700F2F3DA /* Level.swift in Sources */,
 				4046E6E21E9469A700F2F3DA /* Functions.swift in Sources */,
 				406D0B891E95C4A60071B5A3 /* Label.swift in Sources */,
+				406D0B8D1E9709620071B5A3 /* ColorScheme.swift in Sources */,
 				4046E6E81E9469A700F2F3DA /* Proportion.swift in Sources */,
 				4046E6E91E9469A700F2F3DA /* Scene.swift in Sources */,
 				4046E6ED1E9469A700F2F3DA /* Transverser.swift in Sources */,

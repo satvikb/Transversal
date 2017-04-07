@@ -15,17 +15,17 @@ enum LineSegmentDirection {
 
 class LineSegment : Segment{
     
-    init(frame: CGRect, _id: Int, _numSegments : Int, _activeCells : [Int], dir : LineSegmentDirection = .Horizontal, box : Bool = true){
-        super.init(frame: frame, _id: _id, _numSegments: _numSegments, _activeCells: _activeCells)
+    init(frame: CGRect, _id: Int, _numCells : Int, _activeCells : [Int], _layers:[Int:Int], dir : LineSegmentDirection = .Horizontal, box : Bool = true){
+        super.init(frame: frame, _id: _id, _numCells: _numCells, _activeCells: _activeCells, _layers: _layers)
         
         var cellLength : CGFloat!;
         
         switch dir {
         case .Horizontal:
-            cellLength = CGFloat(frame.size.width)/CGFloat(numSegments)
+            cellLength = CGFloat(frame.size.width)/CGFloat(numCells)
             break;
         case .Vertical:
-            cellLength = CGFloat(frame.size.height)/CGFloat(numSegments)
+            cellLength = CGFloat(frame.size.height)/CGFloat(numCells)
             break;
         }
         
@@ -44,7 +44,7 @@ class LineSegment : Segment{
         
         inScreenPosition = newFrame.origin
         
-        for i in 0...numSegments-1 {
+        for i in 0...numCells-1 {
             var pos : CGPoint! = CGPoint.zero;
             var size : CGSize! = CGSize.zero;
             
@@ -59,12 +59,17 @@ class LineSegment : Segment{
                 break;
             }
             
+//            let numLayers : Int = 0
             
             let cell = LineSegmentCell(frame: CGRect(origin: pos, size: size), _id: i)
             
             if(activeCells.contains(i)){
                 if(cell.awake == false){
-                    cell.wake(color: UIColor.red)
+                    if let layer = layers[i]{
+                        cell.wake(layers: layer)
+                    }else{
+                        cell.wake(layers: 1)
+                    }
                 }
             }
             

@@ -21,16 +21,20 @@ class Segment : UIView {
     var id : Int!;
     var cells : [SegmentCell] = [];
     var activeCells : [Int] = []
-    var numSegments : Int!;
+    var layers : [Int:Int] = [:]
+    var numCells : Int!;
     
     var inScreenPosition : CGPoint!;
     
     var hiddenAlpha : Bool = false
     
-    init(frame: CGRect, _id : Int, _numSegments : Int, _activeCells : [Int]){
+    var timePerCell : Double = 0.1
+    
+    init(frame: CGRect, _id : Int, _numCells : Int, _activeCells : [Int], _layers:[Int:Int]){
         id = _id
-        numSegments = _numSegments
+        numCells = _numCells
         activeCells = _activeCells
+        layers = _layers
         
         super.init(frame: frame)
     }
@@ -86,13 +90,19 @@ class Segment : UIView {
     }
 }
 
+protocol SegmentCellProtocol {
+    func setColor(color:UIColor)
+}
+
 class SegmentCell : UIView{
     
     var id: Int!;
     var awake : Bool = false
+    var layers : Int = 1
+    
     var transversing : Bool = false
     
-    var awakeColor : UIColor!;
+    var currentColor : UIColor!;
     
     init(frame: CGRect, _id: Int){
         super.init(frame: frame)
@@ -104,32 +114,57 @@ class SegmentCell : UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func wake(color: UIColor){
-        setColor(col: color)
-        awakeColor = color
+    func wake(layers: Int = 1){
+        self.layers = layers
+        let color = ColorScheme.colorForLayer(layer: layers)
+        setColor(color: color)
+        currentColor = color
         awake = true
     }
     
     func sleep(){
-        setColor(col: UIColor.clear)
+        currentColor = UIColor.clear
+        setColor(color: UIColor.clear)
         awake = false
+    }
+    
+    //return if cell is active when hit
+    func hit() -> Bool{
+        if(awake){
+            if layers > 0{
+                layers -= 1
+                
+                if(layers == 0){
+                    sleep()
+                }else{
+                    currentColor = ColorScheme.colorForLayer(layer: layers)
+                    setColor(color: currentColor)
+                }
+                return true
+            }else{
+                sleep()
+                return false
+            }
+        }else{
+            return false
+        }
     }
     
     func setTransversing(isTransversing: Bool, color: UIColor = UIColor.gray){
         transversing = isTransversing
         
         if(isTransversing == true){
-            setColor(col: color)
+            setColor(color: color)
         }else{
             if(awake){
-                setColor(col: awakeColor)
+                setColor(color: currentColor)
             }else{
-                setColor(col: UIColor.clear)
+                setColor(color: UIColor.clear)
             }
         }
     }
     
-    func setColor(col: UIColor){
-        self.layer.backgroundColor = col.cgColor
+    func setColor(color: UIColor){
+        self.layer.backgroundColor = color.cgColor
     }
 }

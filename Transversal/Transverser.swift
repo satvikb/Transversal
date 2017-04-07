@@ -16,7 +16,7 @@ class Transverser{
     var updateTimer : CADisplayLink!;
     
     var currentTime : Double!;
-    var timePerCell : Double = 0.1;
+//    var timePerCell : Double = 0.1;
     var timePerCellTimer : Double = 0;
     
     init(_level: Level){
@@ -50,7 +50,7 @@ class Transverser{
             let delta = currentTime-prevTime
             timePerCellTimer += delta
             
-            if(timePerCellTimer > timePerCell){
+            if(timePerCellTimer > currentSegment.timePerCell){
                 if(level.hasActiveCell()){
                     transverse()
                 }else{

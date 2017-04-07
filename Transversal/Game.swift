@@ -34,12 +34,12 @@ class Game : Scene {
         }
         
         testLevel = Level(num: 0, _segments: [
-            LineSegment(frame: Screen.screenRect(x: 0, y: 0.25, width: 1, height: 0.02), _id: 0, _numSegments: 25, _activeCells: [0, 3, 6, 8, 10, 15, 19, 24], dir: .Horizontal),
-            LineSegment(frame: Screen.screenRect(x: 0, y: 0.3, width: 1, height: 0.1), _id: 1, _numSegments: 20, _activeCells: [0, 3, 7, 13, 17], dir: .Horizontal),
-            LineSegment(frame: Screen.screenRect(x: 0.0, y: 0.5, width: 0.1, height: 0.3), _id: 2, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical),
-            CircleSegment(frame: Screen.screenRect(x: 0.15, y: 0.5, width: 0.35, height: 0), _id: 3, _numSegments: 15, _activeCells: [4, 6, 10, 13], innerRadius: 0.8, outerRadius: 1),
-            NGonSegment(frame: Screen.screenRect(x: 0.575, y: 0.525, width: 0.25, height: 0), _id: 4, _numSides: 9, _cellsPerSide: 1, _activeCells: [1, 3], innerRadius: 0.7, outerRadius: 1),
-            LineSegment(frame: Screen.screenRect(x: 0.95, y: 0.5, width: 0.1, height: 0.3), _id: 5, _numSegments: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], dir: .Vertical)
+            LineSegment(frame: Screen.screenRect(x: 0, y: 0.25, width: 1, height: 0.02), _id: 0, _numCells: 25, _activeCells: [0, 3, 6, 8, 10, 15, 19, 24], _layers:[0:2], dir: .Horizontal),
+            LineSegment(frame: Screen.screenRect(x: 0, y: 0.3, width: 1, height: 0.1), _id: 1, _numCells: 20, _activeCells: [0, 3, 7, 13, 17], _layers:[0:2], dir: .Horizontal),
+            LineSegment(frame: Screen.screenRect(x: 0.0, y: 0.5, width: 0.1, height: 0.3), _id: 2, _numCells: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], _layers:[2:3], dir: .Vertical),
+            CircleSegment(frame: Screen.screenRect(x: 0.15, y: 0.5, width: 0.35, height: 0), _id: 3, _numCells: 15, _activeCells: [4, 6, 10, 13], _layers:[10:5], innerRadius: 0.8, outerRadius: 1),
+            NGonSegment(frame: Screen.screenRect(x: 0.575, y: 0.525, width: 0.25, height: 0), _id: 4, _numSides: 9, _cellsPerSide: 1, _activeCells: [1, 3], _layers:[3:4], innerRadius: 0.7, outerRadius: 1),
+            LineSegment(frame: Screen.screenRect(x: 0.95, y: 0.5, width: 0.1, height: 0.3), _id: 5, _numCells: 15, _activeCells: [0, 2, 5, 7, 9, 10, 14], _layers:[0:2], dir: .Vertical)
         ])
 
         //init transverser
@@ -58,9 +58,10 @@ class Game : Scene {
     }
     
     func stopButtonPressed(){
-        if(transverser.currentCell.awake == true){
-            transverser.currentCell.sleep()
+        if(transverser.currentCell.hit() == true){
             updateCellLeftText()
+        }else{
+            print("Lose life!!")
         }
     }
     

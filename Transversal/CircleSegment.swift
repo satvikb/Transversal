@@ -10,28 +10,32 @@ import UIKit
 
 class CircleSegment : Segment{
     
-    init(frame: CGRect, _id: Int, _numSegments : Int, _activeCells : [Int], innerRadius : CGFloat, outerRadius : CGFloat){
+    init(frame: CGRect, _id: Int, _numCells : Int, _activeCells : [Int], _layers:[Int:Int], innerRadius : CGFloat, outerRadius : CGFloat){
         var newFrame = frame
         let largest = max(frame.size.width, frame.size.height)
         newFrame.size.width = largest
         newFrame.size.height = largest
         
-        super.init(frame: newFrame, _id: _id, _numSegments: _numSegments, _activeCells: _activeCells)
+        super.init(frame: newFrame, _id: _id, _numCells: _numCells, _activeCells: _activeCells, _layers:_layers)
         
         let actualInnerRadius = innerRadius*largest
         let actualOuterRadius = outerRadius*largest
         
         inScreenPosition = newFrame.origin
         
-        for i in 0...numSegments-1 {
+        for i in 0...numCells-1 {
             let pos : CGPoint! = CGPoint.zero;
             let size : CGSize! = newFrame.size;
             
-            let cell = CircleSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, r1: actualInnerRadius, r2: actualOuterRadius, totalSegments: _numSegments)
+            let cell = CircleSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, r1: actualInnerRadius, r2: actualOuterRadius, totalSegments: _numCells)
             
             if(activeCells.contains(i)){
                 if(cell.awake == false){
-                    cell.wake(color: UIColor.red)
+                    if let layer = layers[i]{
+                        cell.wake(layers: layer)
+                    }else{
+                        cell.wake(layers: 1)
+                    }
                 }
             }
             
@@ -97,8 +101,8 @@ class CircleSegmentCell : SegmentCell{
         super.setTransversing(isTransversing: isTransversing, color: color)
     }
     
-    override func setColor(col: UIColor) {
-        segmentShape.fillColor = col.cgColor
+    override func setColor(color: UIColor) {
+        segmentShape.fillColor = color.cgColor
     }
     
     required init?(coder aDecoder: NSCoder) {
