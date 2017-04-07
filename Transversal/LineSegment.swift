@@ -50,18 +50,17 @@ class LineSegment : Segment{
             
             switch dir {
             case .Horizontal:
-                pos = CGPoint(x: CGFloat(i)*cellLength, y: 0)
+//                pos = CGPoint(x: CGFloat(i)*cellLength, y: 0)
                 size = CGSize(width: cellLength, height: newFrame.size.height)
                 break;
             case .Vertical:
-                pos = CGPoint(x: 0, y: CGFloat(i)*cellLength)
+//                pos = CGPoint(x: 0, y: CGFloat(i)*cellLength)
                 size = CGSize(width: newFrame.size.width, height: cellLength)
                 break;
             }
             
-//            let numLayers : Int = 0
             
-            let cell = LineSegmentCell(frame: CGRect(origin: pos, size: size), _id: i)
+            let cell = LineSegmentCell(frame: CGRect(origin: pos, size: size), _i: i, _dir: dir, _cellLength: cellLength)
             
             if(activeCells.contains(i)){
                 if(cell.awake == false){
@@ -73,8 +72,6 @@ class LineSegment : Segment{
                 }
             }
             
-            cell.layer.borderColor = UIColor.white.cgColor
-            cell.layer.borderWidth = 0.5
             self.addSubview(cell)
             cells.append(cell)
         }
@@ -90,4 +87,42 @@ class LineSegment : Segment{
 
 class LineSegmentCell : SegmentCell{
     
+    var segmentShape : CAShapeLayer!
+    
+    init(frame: CGRect, _i:Int, _dir: LineSegmentDirection, _cellLength : CGFloat){
+        super.init(frame: frame, _id: _i)
+        
+        segmentShape = CAShapeLayer()
+        segmentShape.path = boxSegment(width: frame.size.width, height: frame.size.height, i: _i, _dir: _dir, _cellLength: _cellLength).cgPath
+        segmentShape.strokeColor = UIColor.white.cgColor
+        segmentShape.fillColor = UIColor.clear.cgColor
+        
+        self.layer.addSublayer(segmentShape)
+    }
+    
+    func boxSegment(width:CGFloat, height:CGFloat, i:Int, _dir: LineSegmentDirection, _cellLength: CGFloat) -> UIBezierPath{
+        
+        let pos : CGPoint!
+        
+        switch _dir {
+        case .Horizontal:
+            pos = CGPoint(x: CGFloat(i)*_cellLength, y: 0)
+            break;
+        case .Vertical:
+            pos = CGPoint(x: 0, y: CGFloat(i)*_cellLength)
+            break;
+            
+        }
+        
+        let path = UIBezierPath(rect: CGRect(x: pos.x, y: pos.y, width: _cellLength, height: _cellLength))
+        return path
+    }
+    
+    override func setColor(color: UIColor) {
+        segmentShape.fillColor = color.cgColor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
